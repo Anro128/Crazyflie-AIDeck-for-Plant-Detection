@@ -22,7 +22,7 @@ URI = 'radio://0/80/2M/E7E7E7E708'
 AI_DECK_IP = "192.168.4.1"
 AI_DECK_PORT = 5000
 SAVE_IMAGE = False
-YOLO_MODEL_PATH = "model.pt"
+YOLO_MODEL_PATH = "./model/best.pt"
 CONFIDENCE_THRESHOLD = 0.5
  
 # =============================================================
@@ -112,10 +112,8 @@ def camera_and_detection():
                 green_boost_factor = 0.8
                 img[:, :, 1] = np.clip(img[:, :, 1] * green_boost_factor, 0, 255).astype(np.uint8)
                 
-                uk = img.shape
-                k = 2
-                dim = (uk[1]*k, uk[0]*k) 
-                resized = cv2.resize(img, dim, interpolation=cv2.INTER_CUBIC)
+                uk = 2
+                resized = cv2.resize(img, (img.shape[1]*uk, img.shape[0]*uk), interpolation=cv2.INTER_CUBIC)
  
                 if img is not None:
                     results = model.predict(source=resized, show=False, conf=CONFIDENCE_THRESHOLD, verbose=False)
@@ -138,7 +136,7 @@ def camera_and_detection():
         cv2.destroyAllWindows()
  
  
-if _name_ == '_main_':
+if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR)
  
     # Start both tasks in parallel using threading
