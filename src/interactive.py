@@ -28,52 +28,50 @@ CONFIDENCE_THRESHOLD = 0.5
  
 # =============================================================
 
-# Waktu delay antar gerakan
 VELOCITY = 0.25
 
 # Flag to keep looping
 running = True
 
-def keyboard_listener(mc):
-    def on_press(key):
-        global running
+def terminal_command_control(mc):
+    global running
+    print("Masukkan perintah (w/a/s/d/u/d/l/r/x untuk keluar):")
+    while running:
         try:
-            if hasattr(key, 'char'):
-                if key.char == 'w':
-                    print("Forward")
-                    mc.forward(VELOCITY)
-                elif key.char == 's':
-                    print("Backward")
-                    mc.back(VELOCITY)
-                elif key.char == 'a':
-                    print("Left")
-                    mc.left(VELOCITY)
-                elif key.char == 'd':
-                    print("Right")
-                    mc.right(VELOCITY)
-                elif key.char == 'x':
-                    print("Exit command received")
-                    running = False
-                    return False  # menghentikan listener
+            cmd = input(">> ").strip().lower()
+            if cmd == 'w':
+                print("Forward")
+                mc.forward(VELOCITY)
+            elif cmd == 's':
+                print("Backward")
+                mc.back(VELOCITY)
+            elif cmd == 'a':
+                print("Left")
+                mc.left(VELOCITY)
+            elif cmd == 'd':
+                print("Right")
+                mc.right(VELOCITY)
+            elif cmd == 'u':
+                print("Up")
+                mc.up(0.2)
+            elif cmd == 'd':
+                print("Down")
+                mc.down(0.2)
+            elif cmd == 'l':
+                print("Turn left")
+                mc.turn_left(45)
+            elif cmd == 'r':
+                print("Turn right")
+                mc.turn_right(45)
+            elif cmd == 'x':
+                print("Exit command received.")
+                running = False
+                break
             else:
-                if key == Key.up:
-                    print("Up")
-                    mc.up(0.2)
-                elif key == Key.down:
-                    print("Down")
-                    mc.down(0.2)
-                elif key == Key.left:
-                    print("Turn left")
-                    mc.turn_left(45)
-                elif key == Key.right:
-                    print("Turn right")
-                    mc.turn_right(45)
-        except AttributeError:
-            pass
-
-    with Listener(on_press=on_press) as listener:
-        listener.join()
-
+                print("Perintah tidak dikenali. Gunakan: w/a/s/d/u/d/l/r/x")
+        except KeyboardInterrupt:
+            running = False
+            break
 
 
 def interactive_flight():
@@ -82,11 +80,8 @@ def interactive_flight():
         scf.cf.platform.send_arming_request(True)
         time.sleep(1.0)
         with MotionCommander(scf, default_height=0.3) as mc:
-            print("Ready for keyboard control.")
-            print("Use W/A/S/D to move, ↑/↓ to go up/down, ←/→ to turn, and X to land/exit.")
-
-            keyboard_listener(mc)
-
+            print("Drone siap dikendalikan melalui terminal.")
+            terminal_command_control(mc)
             print("Landing...")
             mc.land()
             time.sleep(1)
