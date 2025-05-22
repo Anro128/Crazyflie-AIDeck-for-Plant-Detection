@@ -26,46 +26,31 @@ YOLO_MODEL_PATH = "./model/best.pt"
 CONFIDENCE_THRESHOLD = 0.5
 # =============================================================
 
+NUM_DRONES = len(CRAZYFLIE_URIS)
+barrier = threading.Barrier(NUM_DRONES)
+
 def flight_sequence(uri):
-    """Flight control logic for Crazyflie - CUSTOMIZED SEQUENCE"""
-    print(f"[{uri}] Starting flight sequence")
+    """Flight control logic with synchronization"""
+    print(f"[{uri}] Init Crazyflie and wait at barrier")
     with SyncCrazyflie(uri) as scf:
         scf.cf.platform.send_arming_request(True)
         time.sleep(1.0)
-        with MotionCommander(scf) as mc:
-            print(f'[{uri}] Take off and rise 0.35m')
-            mc.up(0.05)
-            time.sleep(1)
 
-            print(f'[{uri}] Rotate 180')
+        with MotionCommander(scf) as mc:
+            print(f"[{uri}] Reached barrier, waiting...")
+            barrier.wait()  
+            print(f"[{uri}] Barrier passed, start flight sequence")
+
             mc.turn_right(180)
             time.sleep(1)
-
-            print(f'[{uri}] Move left 1.2m')
             mc.left(1.2)
             time.sleep(1)
-
-            print(f'[{uri}] Move forward 0.6m')
             mc.forward(0.6)
             time.sleep(2)
+            
+            print(f"[{uri}] Landing complete")
 
-            print(f'[{uri}] Move right 1.0m')
-            mc.right(1)
-            time.sleep(2)
 
-            print(f'[{uri}] Move back 1.3m')
-            mc.back(1.3)
-            time.sleep(1)
-
-            print(f'[{uri}] Move right again 1.4m')
-            mc.right(1.4)
-            time.sleep(2)
-
-            print(f'[{uri}] Descend 0.35m')
-            mc.down(0.35)
-            time.sleep(1)
-
-            print(f'[{uri}] Landing complete')
 
 def rx_bytes(sock, size):
     """Receive bytes from socket"""

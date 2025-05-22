@@ -29,41 +29,63 @@ CONFIDENCE_THRESHOLD = 0.5
 
 def flight_sequence():
     """Flight control logic for Crazyflie - CUSTOMIZED SEQUENCE"""
+    print('Prepare to FLY!!')
     cflib.crtp.init_drivers(enable_debug_driver=False)
     with SyncCrazyflie(URI) as scf:
         scf.cf.platform.send_arming_request(True)
         time.sleep(1.0)
+        dis = 0.6
+        vel = 0.3
         with MotionCommander(scf) as mc:
-            print('[FLIGHT] Take off and rise 0.35m')
-            mc.up(0.05)
+            print('[FLIGHT] Take off')
             time.sleep(1)
- 
+
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            mc.move_distance(0.0, dis*2 , -0.1, vel) # sambil turun
+            # mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            mc.move_distance(0.0, dis*2 , 0.1, vel) # sambil naik
+            # mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+
+            print('[FLIGHT] Doing a 180deg circle')
+            mc.circle_right(dis, velocity=0.5, angle_degrees=180)
+            time.sleep(1)
+
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            mc.move_distance(0.0, dis*2 , -0.1, vel) # sambil turun
+            # mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            mc.move_distance(0.0, dis*2 , 0.1, vel) # sambil naik
+            # mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+
+            print('[FLIGHT] Doing a 180deg circle')
+            mc.circle_right(dis, velocity=0.5, angle_degrees=180)
+            time.sleep(1)
+
+            print('[FLIGHT] Doing a 90deg circle')
+            mc.circle_right(dis, velocity=0.5, angle_degrees=90)
+            time.sleep(2)
+            
             print('[FLIGHT] Move rotate 180')
             mc.turn_right(180)
             time.sleep(1)
- 
-            print('[FLIGHT] Move left 1.8m')
-            mc.left(1.2)
+
+            print('[FLIGHT] Doing a 180deg circle')
+            mc.circle_left(dis, velocity=0.5, angle_degrees=180)
+            time.sleep(2)
+
+            print('[FLIGHT] Move rotate 180')
+            mc.turn_right(180)
             time.sleep(1)
- 
-            print('[FLIGHT] Move forward 0.7m')
-            mc.forward(0.6)
-            time.sleep(2)
- 
-            print('[FLIGHT] Move right 1.15m')
-            mc.right(1)
-            time.sleep(2)
- 
-            print('[FLIGHT] Move backward 1.3m')
-            mc.back(1.3)
-            time.sleep(1)
- 
-            print('[FLIGHT] Move right again 1.6m')
-            mc.right(1.4)
-            time.sleep(2)
- 
-            print('[FLIGHT] Descend 0.35m')
-            mc.down(0.35)
+
+            print('[FLIGHT] Doing a 90deg circle')
+            mc.circle_right(dis, velocity=0.5, angle_degrees=90)
             time.sleep(1)
  
             print('[FLIGHT] Landing')
