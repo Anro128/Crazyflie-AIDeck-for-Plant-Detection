@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # =========================== CONFIG ===========================
  
 # Crazyflie URI
-URI = 'radio://0/80/2M/E7E7E7E708'
+URI = 'radio://0/80/2M/E7E7E7E709'
  
 # AI-deck camera config
 AI_DECK_IP = "192.168.4.1"
@@ -54,7 +54,7 @@ def terminal_command_control(mc):
             elif cmd == 'u':
                 print("Up")
                 mc.up(0.2)
-            elif cmd == 'd':
+            elif cmd == 'dw':
                 print("Down")
                 mc.down(0.2)
             elif cmd == 'l':
@@ -68,7 +68,7 @@ def terminal_command_control(mc):
                 running = False
                 break
             else:
-                print("Perintah tidak dikenali. Gunakan: w/a/s/d/u/d/l/r/x")
+                print("Perintah tidak dikenali. Gunakan: w/a/s/d/u/dw/l/r/x")
         except KeyboardInterrupt:
             running = False
             break

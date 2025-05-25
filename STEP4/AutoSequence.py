@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # =========================== CONFIG ===========================
  
 # Crazyflie URI
-URI = 'radio://0/80/2M/E7E7E7E708'
+URI = 'radio://0/80/2M/E7E7E7E709'
  
 # AI-deck camera config
 AI_DECK_IP = "192.168.4.1"
@@ -26,7 +26,7 @@ YOLO_MODEL_PATH = "./model/best.pt"
 CONFIDENCE_THRESHOLD = 0.5
  
 # =============================================================
-
+ 
 def flight_sequence():
     """Flight control logic for Crazyflie - CUSTOMIZED SEQUENCE"""
     print('Prepare to FLY!!')
@@ -34,59 +34,67 @@ def flight_sequence():
     with SyncCrazyflie(URI) as scf:
         scf.cf.platform.send_arming_request(True)
         time.sleep(1.0)
-        dis = 0.6
+        dis = 0.55
         vel = 0.3
         with MotionCommander(scf) as mc:
             print('[FLIGHT] Take off')
-            time.sleep(1)
-
-            print(f'[FLIGHT] Move Right {dis * 2}m')
-            mc.move_distance(0.0, dis*2 , -0.1, vel) # sambil turun
-            # mc.right(dis*2, velocity=vel)
-            time.sleep(4)
-
-            print(f'[FLIGHT] Move Right {dis * 2}m')
-            mc.move_distance(0.0, dis*2 , 0.1, vel) # sambil naik
-            # mc.right(dis*2, velocity=vel)
-            time.sleep(4)
-
-            print('[FLIGHT] Doing a 180deg circle')
-            mc.circle_right(dis, velocity=0.5, angle_degrees=180)
-            time.sleep(1)
-
-            print(f'[FLIGHT] Move Right {dis * 2}m')
-            mc.move_distance(0.0, dis*2 , -0.1, vel) # sambil turun
-            # mc.right(dis*2, velocity=vel)
-            time.sleep(4)
-
-            print(f'[FLIGHT] Move Right {dis * 2}m')
-            mc.move_distance(0.0, dis*2 , 0.1, vel) # sambil naik
-            # mc.right(dis*2, velocity=vel)
-            time.sleep(4)
-
-            print('[FLIGHT] Doing a 180deg circle')
-            mc.circle_right(dis, velocity=0.5, angle_degrees=180)
-            time.sleep(1)
-
-            print('[FLIGHT] Doing a 90deg circle')
-            mc.circle_right(dis, velocity=0.5, angle_degrees=90)
             time.sleep(2)
-            
-            print('[FLIGHT] Move rotate 180')
-            mc.turn_right(180)
+ 
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            # mc.move_distance(0.0, dis*2 , -0.1, vel) # sambil turun
+            mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+ 
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            #mc.move_distance(0.0, dis*2 , 0.1, vel) # sambil naik
+            mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+ 
+            print('[FLIGHT] Move rotate 90')
+            mc.turn_right(90)
             time.sleep(1)
-
+ 
+            print('[FLIGHT] Move up 20cm')
+            mc.up(0.2)
+            time.sleep(1)
+ 
             print('[FLIGHT] Doing a 180deg circle')
             mc.circle_left(dis, velocity=0.5, angle_degrees=180)
             time.sleep(2)
-
-            print('[FLIGHT] Move rotate 180')
-            mc.turn_right(180)
+ 
+            print('[FLIGHT] Move rotate 90')
+            mc.turn_left(90)
             time.sleep(1)
-
+ 
+            print('[FLIGHT] Move down 20cm')
+            mc.down(0.2)
+            time.sleep(3)
+ 
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            # mc.move_distance(0.0, dis*2 , -0.1, vel) # sambil turun
+            mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+ 
+            print(f'[FLIGHT] Move Right {dis * 2}m')
+            #mc.move_distance(0.0, dis*2 , 0.1, vel) # sambil naik
+            mc.right(dis*2, velocity=vel)
+            time.sleep(4)
+ 
+            print('[FLIGHT] Move back 10cm')
+            mc.back(0.1)
+            time.sleep(1)
+ 
+            print('[FLIGHT] Move up 25cm')
+            mc.up(0.25)
+            time.sleep(1)
+ 
             print('[FLIGHT] Doing a 90deg circle')
-            mc.circle_right(dis, velocity=0.5, angle_degrees=90)
-            time.sleep(1)
+            mc.circle_left(dis, velocity=0.5, angle_degrees=90)
+            time.sleep(2)
+ 
+            print('[FLIGHT] Move rotate 90')
+            mc.turn_left(90)
+            time.sleep(3)
  
             print('[FLIGHT] Landing')
  
@@ -133,7 +141,7 @@ def camera_and_detection():
  
                 green_boost_factor = 0.8
                 img[:, :, 1] = np.clip(img[:, :, 1] * green_boost_factor, 0, 255).astype(np.uint8)
-                
+ 
                 uk = 2
                 resized = cv2.resize(img, (img.shape[1]*uk, img.shape[0]*uk), interpolation=cv2.INTER_CUBIC)
  
