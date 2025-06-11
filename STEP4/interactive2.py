@@ -28,7 +28,7 @@ CONFIDENCE_THRESHOLD = 0.5
  
 # =============================================================
 
-DIS = 0.25
+dis = 1
 
 # Flag to keep looping
 running = True
@@ -39,30 +39,31 @@ def terminal_command_control(mc):
     while running:
         try:
             cmd = input(">> ").strip().lower()
+            vel = input("Velocity (m/s): ").strip().lower()
             if cmd == 'w':
-                print("Forward")
-                mc.forward(DIS)
+                print(f"Forward with velocity = {vel} m/s")
+                mc.forward(distance_m = dis, velocity = vel)
             elif cmd == 's':
-                print("Backward")
-                mc.back(DIS)
+                print(f"Backward with velocity = {vel} m/s")
+                mc.back(distance_m = dis, velocity = vel)
             elif cmd == 'a':
-                print("Left")
-                mc.left(DIS)
+                print(f"Left with velocity = {vel} m/s")
+                mc.left(distance_m = dis, velocity = vel)
             elif cmd == 'd':
-                print("Right")
-                mc.right(DIS)
+                print(f"Right with velocity = {vel} m/s")
+                mc.right(distance_m = dis, velocity = vel)
             elif cmd == 'u':
-                print("Up")
-                mc.up(0.2)
+                print(f"Up with velocity = {vel} m/s")
+                mc.up(distance_m = dis, velocity = vel)
             elif cmd == 'dw':
-                print("Down")
-                mc.down(0.2)
+                print(f"Down with velocity = {vel} m/s")
+                mc.down(distance_m = dis, velocity = vel)
             elif cmd == 'l':
                 print("Turn left")
-                mc.turn_left(45)
+                mc.turn_left(90)
             elif cmd == 'r':
                 print("Turn right")
-                mc.turn_right(45)
+                mc.turn_right(90)
             elif cmd == 'x':
                 print("Exit command received.")
                 running = False
