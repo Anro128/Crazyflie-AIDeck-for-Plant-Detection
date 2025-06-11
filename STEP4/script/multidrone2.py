@@ -23,7 +23,7 @@ CRAZYFLIE_URIS = [
 AI_DECK_IP = "192.168.4.1"
 AI_DECK_PORT = 5000
 SAVE_IMAGE = False
-YOLO_MODEL_PATH = "./model/best.pt"
+YOLO_MODEL_PATH = "./../model/best.pt"
 CONFIDENCE_THRESHOLD = 0.5
 # =============================================================
 
