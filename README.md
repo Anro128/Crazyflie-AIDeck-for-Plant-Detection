@@ -1,7 +1,7 @@
 # Crazyflie-AIDeck-for-Plant-Detection
 
 ## DEMO
-[![Demo](https://img.youtube.com/vi/h3_bopc3xCc/hqdefault.jpg)](https://www.youtube.com/watch? v=h3_bopc3xCc)
+[![Demo](https://img.youtube.com/vi/h3_bopc3xCc/hqdefault.jpg)]
 
 ## 📋 Deskripsi Projek
 Projek ini mengimplementasikan sistem deteksi tanaman menggunakan drone Crazyflie yang dilengkapi dengan AI-Deck. Sistem ini mampu melakukan penerbangan otomatis atau manual sambil melakukan deteksi objek tanaman secara real-time menggunakan model YOLO.
@@ -235,3 +235,4 @@ VEL = 0.3   # Velocity in m/s
 [Flash Wifi Example](./STEP3/)
 ## Step 4
 [LETS FLY!](./STEP4/)
+
